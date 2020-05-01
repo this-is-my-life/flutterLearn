@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -44,21 +46,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Widget _buildList() {
-    BigInt _counter = BigInt.from(1);
+  String _reverse = '';
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (context, i) {
-        if (i.isOdd) return Divider();
-
-        _counter *= BigInt.from(2);
-
-        return ListTile(
-          title: Text("$_counter"),
-        );
-      }
-    );
+  void onChanged (String content) {
+    setState(() {
+      _reverse = content.split("").reversed.join("");
+    });
   }
 
   @override
@@ -75,7 +68,22 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: _buildList(), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "$_reverse",
+              style: Theme.of(context).textTheme.display1,
+            ),
+            TextField(
+              onChanged: onChanged,
+              style: Theme.of(context).textTheme.display1,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

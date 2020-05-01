@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -46,11 +44,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _reverse = '';
+  String _converted = '';
 
   void onChanged (String content) {
     setState(() {
-      _reverse = content.split("").reversed.join("");
+      _converted = int.parse(content).toRadixString(2);
     });
   }
 
@@ -73,10 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "$_reverse",
+              "$_converted",
               style: Theme.of(context).textTheme.display1,
             ),
             TextField(
+              keyboardType: TextInputType.numberWithOptions(signed: false),
               onChanged: onChanged,
               style: Theme.of(context).textTheme.display1,
               textAlign: TextAlign.center,

@@ -44,16 +44,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _converted = '';
-
-  void onChanged (String content) {
-    setState(() {
-      _converted = int.parse(content).toRadixString(2);
-    });
-  }
+  List<Widget> _list = [];
 
   @override
   Widget build(BuildContext context) {
+    void _onChanged(String str) {
+      setState(() {
+        if (_list.length > 30) return _list.clear();
+        if (str.endsWith('S')) return _list.clear();
+        _list.add(Text(str));
+      });
+    }
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -68,21 +70,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "$_converted",
-              style: Theme.of(context).textTheme.display1,
-            ),
             TextField(
-              keyboardType: TextInputType.numberWithOptions(signed: false),
-              onChanged: onChanged,
-              style: Theme.of(context).textTheme.display1,
-              textAlign: TextAlign.center,
+              onChanged: _onChanged,
             ),
+            ListBody(
+              children: _list,
+            )
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
